@@ -1,1 +1,19 @@
-./venv
+# Modelos y estados intermedios
+./notebooks/*.pkl
+*.joblib
+
+# Figuras generadas
+*.png
+*.jpg
+
+# Predicciones
+predicciones.csv
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Entornos
+.env
+venv/
