@@ -1,5 +1,5 @@
 # Modelos y estados intermedios
-./notebooks/*.pkl
+notebooks/*.pkl
 *.joblib
 
 # Figuras generadas
