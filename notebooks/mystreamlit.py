@@ -8,14 +8,14 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# ─── Configuración de la página ───────────────────────────────────────────────
+#  Configuración de la página 
 st.set_page_config(
     page_title="Predicción de Depósito Bancario",
     page_icon="🏦",
     layout="centered",
 )
 
-# ─── Carga del modelo ─────────────────────────────────────────────────────────
+#  Carga del modelo 
 @st.cache_resource
 def cargar_modelo():
     try:
@@ -30,20 +30,20 @@ def cargar_modelo():
 
 modelo = cargar_modelo()
 
-# ─── Cabecera ─────────────────────────────────────────────────────────────────
-st.title("🏦 Predicción de Suscripción a Depósito")
+#  Cabecera 
+st.title(" Predicción de Suscripción a Depósito")
 st.markdown(
     "Introduce los datos del cliente para predecir si suscribirá un **depósito a plazo**."
 )
 
 if modelo is None:
     st.error(
-        "⚠️ No se encontró el modelo (`modelo_final.joblib` o `modelo_final.pkl`). "
+        " No se encontró el modelo (`modelo_final.joblib` o `modelo_final.pkl`). "
         "Asegúrate de que el archivo está en el mismo directorio que este script."
     )
     st.stop()
 
-# ─── Opciones de las variables categóricas ────────────────────────────────────
+#  Opciones de las variables categóricas 
 JOBS = [
     "admin.", "blue-collar", "entrepreneur", "housemaid", "management",
     "retired", "self-employed", "services", "student", "technician",
@@ -59,7 +59,7 @@ MONTHS    = ["jan", "feb", "mar", "apr", "may", "jun",
              "jul", "aug", "sep", "oct", "nov", "dec"]
 POUTCOME  = ["failure", "other", "success", "unknown"]
 
-# ─── Formulario de entrada ────────────────────────────────────────────────────
+#  Formulario de entrada 
 st.subheader("Datos del cliente")
 
 col1, col2 = st.columns(2)
@@ -93,7 +93,7 @@ with col2:
     previous = st.number_input("Nº de contactos en campañas anteriores", min_value=0, value=0)
     poutcome = st.selectbox("Resultado de campaña anterior", POUTCOME)
 
-# ─── Preproceso de pdays (igual que en el notebook) ───────────────────────────
+#  Preproceso de pdays (igual que en el notebook) 
 def preparar_instancia(age, job, marital, education, default, balance,
                        housing, loan, contact, day_of_week, month, duration,
                        campaign, pdays, previous, poutcome):
@@ -121,10 +121,10 @@ def preparar_instancia(age, job, marital, education, default, balance,
     }
     return pd.DataFrame([data])
 
-# ─── Predicción ───────────────────────────────────────────────────────────────
+#  Predicción 
 st.divider()
 
-if st.button("🔍 Predecir", use_container_width=True, type="primary"):
+if st.button(" Predecir", use_container_width=True, type="primary"):
     X_nuevo = preparar_instancia(
         age, job, marital, education, default, balance,
         housing, loan, contact, day_of_week, month, duration,
@@ -136,19 +136,19 @@ if st.button("🔍 Predecir", use_container_width=True, type="primary"):
     st.subheader("Resultado")
 
     if prediccion == "yes":
-        st.success("✅ El cliente **SÍ suscribirá** el depósito")
+        st.success(" El cliente **SÍ suscribirá** el depósito")
     else:
-        st.error("❌ El cliente **NO suscribirá** el depósito")
+        st.error(" El cliente **NO suscribirá** el depósito")
 
     st.metric("Predicción", prediccion.upper())
 
-    # ── Detalle de la instancia introducida ──
+    #  detalle de la instancia introducida 
     with st.expander("Ver datos enviados al modelo"):
         X_nuevo_show = X_nuevo.copy()
         X_nuevo_show["pdays"] = pdays  # mostrar el valor original
         st.dataframe(X_nuevo_show, use_container_width=True)
 
-# ─── Predicción por lote (verificación pipeline vs app) ───────────────────────
+#  Predicción por lote (verificación pipeline vs app) 
 st.divider()
 st.subheader("Verificación: comparar pipeline vs app")
 st.markdown(
@@ -156,7 +156,7 @@ st.markdown(
     "predicciones del pipeline (notebook) y la app Streamlit coinciden."
 )
 
-with st.expander("📋 Instancias de verificación"):
+with st.expander(" Instancias de verificación"):
     st.markdown("**Instancia 1**")
     inst1 = preparar_instancia(
         age=45, job="management", marital="married", education="tertiary",
@@ -167,7 +167,7 @@ with st.expander("📋 Instancias de verificación"):
     pred1 = modelo.predict(inst1)[0]
 
     st.dataframe(inst1, use_container_width=True)
-    st.write(f"➡️ Predicción: **{pred1}")
+    st.write(f" Predicción: **{pred1}")
 
     st.markdown("**Instancia 2**")
     inst2 = preparar_instancia(
@@ -179,13 +179,13 @@ with st.expander("📋 Instancias de verificación"):
     pred2 = modelo.predict(inst2)[0]
 
     st.dataframe(inst2, use_container_width=True)
-    st.write(f"➡️ Predicción: **{pred2}")
+    st.write(f" Predicción: **{pred2}")
 
     st.info(
         "Copia estas dos instancias en tu notebook y comprueba que `modelo_produccion.predict()` "
         "devuelve los mismos resultados para incluirlo en el PDF de verificación."
     )
 
-# ─── Footer ───────────────────────────────────────────────────────────────────
+#  Footer 
 st.divider()
 st.caption("Práctica 1 — Aprendizaje Automático 2025-26 · UC3M")
