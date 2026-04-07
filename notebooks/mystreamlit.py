@@ -151,10 +151,6 @@ if st.button(" Predecir", use_container_width=True, type="primary"):
 #  prediccion por lote (pipeline vs app) 
 st.divider()
 st.subheader("Verificación: comparar pipeline vs app")
-st.markdown(
-    "Introduce a continuación dos instancias manualmente para demostrar que las "
-    "predicciones del pipeline (notebook) y la app Streamlit coinciden."
-)
 
 with st.expander(" Instancias de verificación"):
     st.markdown("**Instancia 1**")
@@ -181,10 +177,6 @@ with st.expander(" Instancias de verificación"):
     st.dataframe(inst2, use_container_width=True)
     st.write(f" Predicción: **{pred2}")
 
-    st.info(
-        "Copia estas dos instancias en tu notebook y comprueba que `modelo_produccion.predict()` "
-        "devuelve los mismos resultados para incluirlo en el PDF de verificación."
-    )
 
 #  footer 
 st.divider()
