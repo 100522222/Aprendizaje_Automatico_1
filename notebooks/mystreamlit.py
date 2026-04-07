@@ -8,14 +8,14 @@ import pandas as pd
 import numpy as np
 import joblib
 
-#  Configuración de la página 
+#  configuración de la página 
 st.set_page_config(
     page_title="Predicción de Depósito Bancario",
     page_icon="🏦",
     layout="centered",
 )
 
-#  Carga del modelo 
+#  cargamos el modelo 
 @st.cache_resource
 def cargar_modelo():
     try:
@@ -30,7 +30,7 @@ def cargar_modelo():
 
 modelo = cargar_modelo()
 
-#  Cabecera 
+#  cabecera 
 st.title(" Predicción de Suscripción a Depósito")
 st.markdown(
     "Introduce los datos del cliente para predecir si suscribirá un **depósito a plazo**."
@@ -43,7 +43,7 @@ if modelo is None:
     )
     st.stop()
 
-#  Opciones de las variables categóricas 
+#  opciones de las variables categóricas 
 JOBS = [
     "admin.", "blue-collar", "entrepreneur", "housemaid", "management",
     "retired", "self-employed", "services", "student", "technician",
@@ -59,7 +59,7 @@ MONTHS    = ["jan", "feb", "mar", "apr", "may", "jun",
              "jul", "aug", "sep", "oct", "nov", "dec"]
 POUTCOME  = ["failure", "other", "success", "unknown"]
 
-#  Formulario de entrada 
+#  introducimos los datos del cliente 
 st.subheader("Datos del cliente")
 
 col1, col2 = st.columns(2)
@@ -121,7 +121,7 @@ def preparar_instancia(age, job, marital, education, default, balance,
     }
     return pd.DataFrame([data])
 
-#  Predicción 
+#  prediccion 
 st.divider()
 
 if st.button(" Predecir", use_container_width=True, type="primary"):
@@ -148,7 +148,7 @@ if st.button(" Predecir", use_container_width=True, type="primary"):
         X_nuevo_show["pdays"] = pdays  # mostrar el valor original
         st.dataframe(X_nuevo_show, use_container_width=True)
 
-#  Predicción por lote (verificación pipeline vs app) 
+#  prediccion por lote (pipeline vs app) 
 st.divider()
 st.subheader("Verificación: comparar pipeline vs app")
 st.markdown(
@@ -186,6 +186,6 @@ with st.expander(" Instancias de verificación"):
         "devuelve los mismos resultados para incluirlo en el PDF de verificación."
     )
 
-#  Footer 
+#  footer 
 st.divider()
 st.caption("Práctica 1 — Aprendizaje Automático 2025-26 · UC3M")
