@@ -15,5 +15,5 @@
 # .ipynb_checkpoints/
 
 # Entornos
-# .env
-# venv/
+.env
+venv/
